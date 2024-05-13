@@ -24,20 +24,7 @@
 - [Container Registry](#container-registry)
     - [Using a Private Container Registry (ACR)](#using-a-private-container-registry-acr)
     - [Log into ACR](#log-into-acr)
-- [Login to Azure if not already logged in](#login-to-azure-if-not-already-logged-in)
-- [Login to Azure if not already logged in](#login-to-azure-if-not-already-logged-in)
-- [Login to ACR](#login-to-acr)
-- [Login to ACR with Docker (follow the login prompts)](#login-to-acr-with-docker-follow-the-login-prompts)
-- [NB. If the command asks for username when running in WSL. Cancel the operation and run this command from a windows cmd prompt](#nb-if-the-command-asks-for-username-when-running-in-wsl-cancel-the-operation-and-run-this-command-from-a-windows-cmd-prompt)
     - [Push an Image to ACR](#push-an-image-to-acr)
-- [assuming we built our image with the following tags](#assuming-we-built-our-image-with-the-following-tags)
-- [assuming we built our image with the following tags](#assuming-we-built-our-image-with-the-following-tags)
-- [We tag the image with the ACR repo alias](#we-tag-the-image-with-the-acr-repo-alias)
-- [Replace <team> with your team name (eg atari)](#replace-team-with-your-team-name-eg-atari)
-- [Replace <user-id> with your name (eg dan-webb)>](#replace-user-id-with-your-name-eg-dan-webb)
-- [Now we push](#now-we-push)
-- [Now we push](#now-we-push)
-- [Confirm it worked by pulling it](#confirm-it-worked-by-pulling-it)
 - [Container App](#container-app)
     - [Not deployed anything on Azure before?](#not-deployed-anything-on-azure-before)
     - [Deploying Our App](#deploying-our-app)
@@ -331,28 +318,28 @@ But there is another way, you can create your own. In our case we have used the 
 
 > If you are not on the BJSS course, you will need to login to your own tenant. You can find out [how to find it here](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-find-tenant)
 
-```bash
-# Login to Azure if not already logged in
+```
+// Login to Azure if not already logged in
 az login --tenant 1491bbb5-26ff-4146-a689-da9d7f9df86f
 
-# Login to ACR
+// Login to ACR
 az acr login --name acrbjssacademy
 
-# Login to ACR with Docker (follow the login prompts)
-# NB. If the command asks for username when running in WSL. Cancel the operation and run this command from a windows cmd prompt
+// Login to ACR with Docker (follow the login prompts)
+// NB. If the command asks for username when running in WSL. Cancel the operation and run this command from a windows cmd prompt
 docker login azure
 ```
 
 ## Push an Image to ACR
 Lets push one of the images we built.
 
-```bash
-# assuming we built our image with the following tags
+```
+// assuming we built our image with the following tags
 docker build . -t example-app:latest .
 
-# We tag the image with the ACR repo alias
-# Replace <team> with your team name (eg atari)
-# Replace <user-id> with your name (eg dan-webb)>
+// We tag the image with the ACR repo alias
+// Replace <team> with your team name (eg atari)
+// Replace <user-id> with your name (eg dan-webb)>
 docker tag example-app:latest acrbjssacademy.azurecr.io/<team>/<user-id>-example-app:latest
 ```
 
@@ -363,11 +350,11 @@ docker tag example-app:latest acrbjssacademy.azurecr.io/<team>/<user-id>-example
     2. `<team>/<user-id>-example-app` This is the new name of the Docker image. This helps organize and identify images within the container registry.
     3. `latest` This is the tag assigned to the Docker image. 
 
-```bash
-# Now we push
+```
+// Now we push
 docker push acrbjssacademy.azurecr.io/<team>/<user-id>-example-app:latest
 
-# Confirm it worked by pulling it
+// Confirm it worked by pulling it
 docker pull acrbjssacademy.azurecr.io/<team>/<user-id>-example-app:latest
 ```
 
