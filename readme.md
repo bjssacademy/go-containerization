@@ -417,7 +417,7 @@ You can find your resource group if you search for it by name, or by searching f
 2. Select App Services from the Services Bar
 3. Click Add
 
-![add](images/appsvc_create.PNG)
+![add](images/appsvccreate.PNG)
 
 ### Complete Basic App Details
 ---
