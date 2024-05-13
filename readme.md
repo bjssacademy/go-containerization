@@ -2,6 +2,39 @@
 
 > This section assumes you have a basic knowledge of containers, and have previously pushed and pulled images from Docker Hub, as well as having the Go application created.
 
+<!-- TOC -->
+
+- [Containerization](#containerization)
+    - [The Dockerfile](#the-dockerfile)
+    - [How to create a Dockerfile from scratch](#how-to-create-a-dockerfile-from-scratch)
+        - [1 ) Create the file](#1--create-the-file)
+        - [2 ) The FROM command](#2--the-from-command)
+        - [3 ) The WORKDIR command](#3--the-workdir-command)
+        - [4 ) The COPY command](#4--the-copy-command)
+        - [5 ) The RUN command](#5--the-run-command)
+        - [6 ) The CMD command](#6--the-cmd-command)
+        - [7 ) The ENV command](#7--the-env-command)
+        - [8 ) The EXPOSE command](#8--the-expose-command)
+- [Our Dockerfile](#our-dockerfile)
+    - [With an In-Memory Database](#with-an-in-memory-database)
+    - [With a Postgres Database & Goose Migrations](#with-a-postgres-database--goose-migrations)
+- [Building our Image](#building-our-image)
+    - [Running Your Image](#running-your-image)
+        - [What's `-p 8080:8080`?](#whats--p-80808080)
+- [Container Registry](#container-registry)
+    - [Using a Private Container Registry (ACR)](#using-a-private-container-registry-acr)
+    - [Log into ACR](#log-into-acr)
+    - [Push an Image to ACR](#push-an-image-to-acr)
+- [Container App](#container-app)
+    - [Not deployed anything on Azure before?](#not-deployed-anything-on-azure-before)
+    - [Deploying Our App](#deploying-our-app)
+        - [Creating the App](#creating-the-app)
+        - [Complete Basic App Details](#complete-basic-app-details)
+- [VS Code Extras](#vs-code-extras)
+- [And finally...](#and-finally)
+
+<!-- /TOC -->
+
 We're going to be building our container using *Docker*.
 
 ## The Dockerfile
@@ -441,7 +474,7 @@ And even [deploy](https://code.visualstudio.com/docs/containers/app-service) dir
 
 ---
 
-## And finally...
+# And finally...
 
 Great work - you have successfully built an image with your Go app, pushed it to ACR, and deployed that image to the web!
 
