@@ -24,7 +24,20 @@
 - [Container Registry](#container-registry)
     - [Using a Private Container Registry (ACR)](#using-a-private-container-registry-acr)
     - [Log into ACR](#log-into-acr)
+- [Login to Azure if not already logged in](#login-to-azure-if-not-already-logged-in)
+- [Login to Azure if not already logged in](#login-to-azure-if-not-already-logged-in)
+- [Login to ACR](#login-to-acr)
+- [Login to ACR with Docker (follow the login prompts)](#login-to-acr-with-docker-follow-the-login-prompts)
+- [NB. If the command asks for username when running in WSL. Cancel the operation and run this command from a windows cmd prompt](#nb-if-the-command-asks-for-username-when-running-in-wsl-cancel-the-operation-and-run-this-command-from-a-windows-cmd-prompt)
     - [Push an Image to ACR](#push-an-image-to-acr)
+- [assuming we built our image with the following tags](#assuming-we-built-our-image-with-the-following-tags)
+- [assuming we built our image with the following tags](#assuming-we-built-our-image-with-the-following-tags)
+- [We tag the image with the ACR repo alias](#we-tag-the-image-with-the-acr-repo-alias)
+- [Replace <team> with your team name (eg atari)](#replace-team-with-your-team-name-eg-atari)
+- [Replace <user-id> with your name (eg dan-webb)>](#replace-user-id-with-your-name-eg-dan-webb)
+- [Now we push](#now-we-push)
+- [Now we push](#now-we-push)
+- [Confirm it worked by pulling it](#confirm-it-worked-by-pulling-it)
 - [Container App](#container-app)
     - [Not deployed anything on Azure before?](#not-deployed-anything-on-azure-before)
     - [Deploying Our App](#deploying-our-app)
@@ -417,7 +430,7 @@ You can find your resource group if you search for it by name, or by searching f
 2. Select App Services from the Services Bar
 3. Click Add
 
-![add](images/appsvccreate.PNG)
+![alt text](images/appsvccreate.png)
 
 ### Complete Basic App Details
 ---
