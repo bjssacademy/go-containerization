@@ -329,6 +329,8 @@ But there is another way, you can create your own. In our case we have used the 
 
 ## Log into ACR
 
+> If you are not on the BJSS course, you will need to login to your own tenant. You can find out [how to find it here](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-find-tenant)
+
 ```bash
 # Login to Azure if not already logged in
 az login --tenant 1491bbb5-26ff-4146-a689-da9d7f9df86f
