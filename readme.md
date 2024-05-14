@@ -2,8 +2,6 @@
 
 > This section assumes you have a basic knowledge of containers, and have previously pushed and pulled images from Docker Hub, as well as having the Go application created.
 
-<!-- TOC -->
-
 - [Containerization](#containerization)
     - [The Dockerfile](#the-dockerfile)
     - [How to create a Dockerfile from scratch](#how-to-create-a-dockerfile-from-scratch)
@@ -30,10 +28,13 @@
     - [Deploying Our App](#deploying-our-app)
         - [Creating the App](#creating-the-app)
         - [Complete Basic App Details](#complete-basic-app-details)
+- [Multi-stage Builds](#multi-stage-builds)
+    - [Scratch](#scratch)
+    - [Alpine base image](#alpine-base-image)
+    - [Others](#others)
+    - [Our multi-stage Dockerfile](#our-multi-stage-dockerfile)
 - [VS Code Extras](#vs-code-extras)
 - [And finally...](#and-finally)
-
-<!-- /TOC -->
 
 We're going to be building our container using *Docker*.
 
@@ -201,6 +202,9 @@ RUN mkdir /app
 ADD . /app
 
 WORKDIR /app
+
+COPY go.mod ./
+RUN go mod download && go mod verify
 
 ENV GOOSE_DRIVER=postgres
 ENV GOOSE_DBSTRING=user=postgres password=YOURPASSWORD dbname=acme sslmode=disable host=host.docker.internal
@@ -462,6 +466,67 @@ Your default route shows "Hello World!"
 Add the route `/api/users` to the URL to display your in-memory users!
 
 ![alt text](images/cwa6.PNG)
+
+---
+
+# Multi-stage Builds
+
+You *may* have noticed the size of our build is quite large at ~300MB. 
+
+Multi-stage builds allow you to separate the build environment from the runtime environment. This means we can compile our application and gather dependencies in one stage and then copy only the necessary artifacts (e.g., binaries) into a clean runtime image in another stage. 
+
+As a result, the final image size is significantly smaller because it only includes the required files for running the application.
+
+Multi-stage builds can *speed up* the build process by optimizing caching. Intermediate build stages are cached by Docker, so if the source code hasn't changed, Docker can reuse previously built stages, avoiding unnecessary rebuilds of unchanged dependencies or intermediate artifacts. 
+
+Let's change our build script to use a multi-stage build and see the difference.
+
+## Scratch
+
+The scratch base image is an empty image, essentially a blank slate with no operating system or libraries included. This means that the resulting Docker image contains only the application binary and its dependencies, resulting in the smallest possible image size.
+
+Since the scratch image is empty, it has a minimal attack surface. There are no additional components or dependencies included in the image that could potentially contain security vulnerabilities. Good news indeed.
+
+However, the image lacks a complete operating system and runtime environment, including essential libraries and utilities. And since the image lacks standard utilities and debugging tools, troubleshooting issues within the container environment can be...challenging.
+
+## Alpine base image
+
+The base Alpine image provides a lightweight runtime environment with essential utilities and libraries, but without the unnecessary bloat. It's a good choice if you need the flexibility..however, it uses the `musl` C library instead of the more common `glibc` used by most Linux distributions. While this *generally* isn't a problem for Go applications, it can potentially cause compatibility issues with applications that rely on specific `glibc` features or behaviour.
+
+## Others
+
+If you do need the `glibc` library, then there are other images you can use like DebianSlim or BusyBox.
+
+## Our multi-stage Dockerfile
+
+```docker
+# Build stage
+FROM golang:1.22.3-alpine3.19 AS build
+WORKDIR /app
+COPY . .
+COPY go.mod ./
+RUN go mod download && go mod verify
+RUN go build -o main .
+
+# Final stage
+FROM scratch
+WORKDIR /app
+COPY --from=build /app/main .
+EXPOSE 8080
+CMD ["./main"]
+```
+
+If you now build your image you'll notice it's a) much faster and b) the image size is only ~7MB!
+
+### Tag & Push to ACR
+
+```
+docker tag example-app:latest acrbjssacademy.azurecr.io/<team>/<user-id>-example-app:latest
+
+docker push acrbjssacademy.azurecr.io/<team>/<user-id>-example-app:latest
+```
+
+Now you can deploy the image from the portal (also from the command line, but we'll leave that for another day...)
 
 ---
 
