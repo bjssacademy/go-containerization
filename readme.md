@@ -324,7 +324,7 @@ But there is another way, you can create your own. In our case we have used the 
 
 ```
 // Login to Azure if not already logged in
-az login --tenant 1491bbb5-26ff-4146-a689-da9d7f9df86f
+az login --tenant [ask your tutor for the tenant id]
 
 // Login to ACR
 az acr login --name acrbjssacademy
